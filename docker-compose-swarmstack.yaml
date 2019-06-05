@@ -45,6 +45,10 @@ services:
       - source: promtail_config
         target: /etc/promtail/promtail-docker-config.yaml
     deploy:
+      labels:
+        prometheus.enable: "true"
+        prometheus.port: "9080"
+        prometheus.path: "/metrics"
       mode: global
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers
