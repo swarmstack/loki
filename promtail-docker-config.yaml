@@ -1,0 +1,22 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/api/prom/push
+
+scrape_configs:
+- job_name: docker
+  entry_parser: docker
+  file_sd_configs:
+  - files:
+    - /etc/promtail/targets/promtail-targets.yaml
+  relabel_configs:
+  - source_labels: [__address__]
+    target_label: container_id
+  - source_labels: [container_id]
+    target_label: __path__
+    replacement: /var/lib/docker/containers/$1*/*.log
