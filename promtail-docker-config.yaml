@@ -19,4 +19,4 @@ scrape_configs:
     target_label: container_id
   - source_labels: [container_id]
     target_label: __path__
-    replacement: /var/lib/docker/containers/$1*/*.log
+    replacement: /var/lib/docker/containers/$1/*.log

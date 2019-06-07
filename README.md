@@ -14,7 +14,7 @@ crontab -e
 and add the following line to your root cron (or cron of a user that can execute /bin/docker):
 
 ```
-* * * * *  docker ps --format '- targets: ["{{.ID}}"]\n  labels:\n    container_name: "{{.Names}}"' > /etc/promtail/targets/promtail-targets.yaml
+* * * * *  docker ps --no-trunc --format '- targets: ["{{.ID}}"]\n  labels:\n    container_name: "{{.Names}}"' > /etc/promtail/targets/promtail-targets.yaml
 ```
 
 Non-[swarmstack](https://github.com/swarmstack/swarmstack) users will need to edit promtail-docker-config.yaml and change the clients url from http://loki:3100/.. to the IP or DNS of one of your Docker nodes.

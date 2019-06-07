@@ -51,5 +51,5 @@ services:
         prometheus.path: "/metrics"
       mode: global
     volumes:
-      - /var/lib/docker/containers:/var/lib/docker/containers
-      - /etc/promtail/targets:/etc/promtail/targets
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /etc/promtail/targets:/etc/promtail/targets:ro

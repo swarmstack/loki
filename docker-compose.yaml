@@ -33,5 +33,5 @@ services:
     #ports:
     #  - "9080:9080"
     volumes:
-      - /var/lib/docker/containers:/var/lib/docker/containers
-      - /etc/promtail/targets:/etc/promtail/targets
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /etc/promtail/targets:/etc/promtail/targets:ro
