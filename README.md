@@ -1,6 +1,6 @@
 # swarmstack/loki
 
-Docker compose file for Grafana Loki, like Prometheus but for logs. Works with stand-alone Docker nodes as well as for Docker swarms.
+Docker compose file for Grafana Loki, like Prometheus but for logs. Requires Docker swarm.
 
 ## INSTALLATION
 
