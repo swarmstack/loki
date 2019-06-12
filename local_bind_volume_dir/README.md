@@ -1,0 +1,1 @@
+This directory exists as "permanent" storage for your container, just in case you forget to edit the local_bind_volume_dir to another directory on your local Docker system towards the bottom of docker-compose.yml, or use persistent storage as with the swarmstack version.
