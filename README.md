@@ -4,20 +4,32 @@ Docker compose file for Grafana Loki, like Prometheus but for logs. Requires Doc
 
 ## INSTALLATION
 
-On every one of your Docker nodes, create a directory and cron job that will populate container names:
+On every Docker swarm node, first install Loki's Docker log driver plugin (it's important to install the plugin before modifying /etc/docker/daemon.json)
 
 ```
-mkdir -p /etc/promtail/targets
-crontab -e
+docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 ```
 
-and add the following line to your root cron (or cron of a user that can execute /bin/docker):
+Next, add the following (at least the log-driver and log-opts below) to the file /etc/docker/daemon.json on each Docker swarm node:
 
 ```
-* * * * *  docker ps --no-trunc --format '- targets: ["{{.ID}}"]\n  labels:\n    container_name: "{{.Names}}"' > /etc/promtail/targets/promtail-targets.yaml
+{
+    "debug" : false,
+    "log-driver": "loki",
+    "log-opts": {
+        "loki-url": "http://SWARM-FQDN-OR-IP:3100/api/prom/push",
+        "loki-batch-size": "400"
+    }
+}
 ```
 
-Non-[swarmstack](https://github.com/swarmstack/swarmstack) users will need to edit promtail-docker-config.yaml and change the clients url from http://loki:3100/.. to the IP or DNS of one of your Docker nodes.
+Finally, restart the Docker daemon on each swarm node (draining nodes first if necessary) to pick up the logging change:
+
+```
+docker node update --availbility drain node1.fqdn
+systemctl restart docker
+docker node update --availbility active node1.fqdn
+```
 
 ## USAGE
 

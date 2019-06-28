@@ -15,8 +15,6 @@ volumes:
 configs:
   loki_config:
     file: ./loki-local-config.yaml
-  promtail_config:
-    file: ./promtail-docker-config.yaml
 
 services:
   loki:
@@ -35,21 +33,7 @@ services:
         constraints:
           - node.Labels.storagegroup==RED
       replicas: 1
+    ports:
+      - "3100:3100"
     volumes:
       - loki-data:/data/loki
-
-  promtail:
-    image: grafana/promtail:v0.1.0
-    command: -config.file=/etc/promtail/promtail-docker-config.yaml
-    configs:
-      - source: promtail_config
-        target: /etc/promtail/promtail-docker-config.yaml
-    deploy:
-      labels:
-        prometheus.enable: "true"
-        prometheus.port: "9080"
-        prometheus.path: "/metrics"
-      mode: global
-    volumes:
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /etc/promtail/targets:/etc/promtail/targets:ro
