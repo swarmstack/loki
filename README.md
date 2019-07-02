@@ -33,8 +33,6 @@ docker node update --availbility active node1.fqdn
 
 ## USAGE
 
-Finally, after adding the above directory and cron job to all of your Docker hosts:
-
 ```
 docker stack deploy -c docker-compose.yml loki
 ```
