@@ -18,7 +18,7 @@ configs:
 
 services:
   loki:
-    image: grafana/loki:v0.2.0
+    image: grafana/loki:v0.3.0
     command: -config.file=/etc/loki/loki-local-config.yaml
     configs:
       - source: loki_config
