@@ -17,8 +17,7 @@ Next, add the following (at least the log-driver and log-opts below) to the file
     "debug" : false,
     "log-driver": "loki",
     "log-opts": {
-        "loki-url": "http://SWARM-FQDN-OR-IP:3100/api/prom/push",
-        "loki-batch-size": "400"
+        "loki-url": "http://127.0.0.1:3100/loki/api/v1/push"
     }
 }
 ```
