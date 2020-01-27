@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./down
+sleep 5
+./up-swarmstack
