@@ -1,6 +1,6 @@
 # swarmstack/loki
 
-Docker compose file for Grafana Loki, like Prometheus but for logs. Requires Docker swarm.
+Docker swarm compose file for Grafana Loki, like Prometheus but for logs.
 
 ## INSTALLATION
 
@@ -25,9 +25,10 @@ Next, add the following (at least the log-driver and log-opts below) to the file
 Finally, restart the Docker daemon on each swarm node (draining nodes first if necessary) to pick up the logging change:
 
 ```
-docker node update --availbility drain node1.fqdn
+docker node ls
+docker node update --availability drain node1.fqdn
 systemctl restart docker
-docker node update --availbility active node1.fqdn
+docker node update --availability active node1.fqdn
 ```
 
 ## USAGE
@@ -42,4 +43,4 @@ docker stack deploy -c docker-compose.yml loki
 
 Log into Grafana as an administrator, and add a new Data Source (Configuration > Data Sources). You should only need to set the Name (Loki) and provide Grafana a URL to the Loki service. swarmstack users should set this to http://loki:3100 - otherwise change 'loki' to the IP or DNS of one of your Docker nodes.
 
-Logs from your container stdout and stderr will now get populated into Loki by the promtail containers running on each Docker node. If you have a service running in a container which doesn't support writing it's output to stdout or stderr of the container (visible using "docker logs container_id" or "docker service logs service_id"), see [https://docs.docker.com/config/containers/logging/](https://docs.docker.com/config/containers/logging/) which explains what the official nginx container does by symbolically linking it's own access and error log files to the container's /dev/stdout and /dev/stderr files instead.
+Logs from your container stdout and stderr will now get populated into Loki by the container stdout and stderr via the docker daemons running on each Docker swarm node. If you have a service running in a container which doesn't support writing it's output to stdout or stderr of the container (visible using "docker logs container_id" or "docker service logs service_id"), see [https://docs.docker.com/config/containers/logging/](https://docs.docker.com/config/containers/logging/) which explains what the official nginx container does by symbolically linking it's own access and error log files to the container's /dev/stdout and /dev/stderr files as one workaround.
